@@ -1,28 +1,31 @@
+import { Dispatch, SetStateAction } from 'react';
+import { Link } from 'react-router-dom';
+import { Movie } from '../../types/films';
+
 export type MovieCardProps = {
-  imgFileName: string;
-  title: string;
-  imgAlt?: string;
+  movie: Movie;
+  setHoveredCardId: Dispatch<SetStateAction<number | null>>;
 };
 
-function MovieCard({
-  imgFileName,
-  title,
-  imgAlt,
-}: MovieCardProps): JSX.Element {
+function MovieCard({ movie, setHoveredCardId }: MovieCardProps): JSX.Element {
   return (
-    <article className="small-film-card catalog__films-card">
+    <article
+      className="small-film-card catalog__films-card"
+      onMouseEnter={() => setHoveredCardId(movie.id)}
+      onMouseLeave={() => setHoveredCardId(null)}
+    >
       <div className="small-film-card__image">
         <img
-          src={`img/${imgFileName}`}
-          alt={imgAlt || title}
+          src={movie.previewImage}
+          alt={movie.description}
           width="280"
           height="175"
         />
       </div>
       <h3 className="small-film-card__title">
-        <a className="small-film-card__link" href="film-page.html">
-          {title}
-        </a>
+        <Link className="small-film-card__link" to={`/films/${movie.id}`}>
+          {movie.name}
+        </Link>
       </h3>
     </article>
   );
