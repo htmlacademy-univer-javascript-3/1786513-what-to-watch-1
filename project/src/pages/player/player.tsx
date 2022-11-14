@@ -1,9 +1,26 @@
-function Player(): JSX.Element {
+import { useNavigate } from 'react-router-dom';
+import { Movie } from '../../types/films';
+
+export type PlayerProps = {
+  movie: Movie;
+};
+
+function Player({ movie }: PlayerProps): JSX.Element {
+  const navigate = useNavigate();
+
   return (
     <div className="player">
-      <video src="#" className="player__video" poster="img/player-poster.jpg" />
+      <video
+        src={movie.videoLink}
+        className="player__video"
+        poster={movie.posterImage}
+      />
 
-      <button type="button" className="player__exit">
+      <button
+        type="button"
+        className="player__exit"
+        onClick={() => navigate(-1)}
+      >
         Exit
       </button>
 

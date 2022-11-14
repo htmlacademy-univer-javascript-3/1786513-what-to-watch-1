@@ -1,69 +1,25 @@
-import MovieCard, {
-  MovieCardProps,
-} from '../../components/movie-card/movie-card';
+import { Link } from 'react-router-dom';
+import FilmsList from '../../components/films-list/films-list';
+import Logo from '../../components/logo/logo';
+import { Movie } from '../../types/films';
 
 export type MainProps = {
-  name: string;
-  genre: string;
-  releaseYear: number;
+  promoMovie: Movie;
+  movies: Movie[];
 };
 
-function Main({ name, genre, releaseYear }: MainProps): JSX.Element {
-  const fakeMoviesInfo: MovieCardProps[] = [
-    {
-      imgFileName: 'fantastic-beasts-the-crimes-of-grindelwald.jpg',
-      title: 'Fantastic Beasts: The Crimes of Grindelwald',
-    },
-    { imgFileName: 'bohemian-rhapsody.jpg', title: 'Bohemian Rhapsody' },
-    { imgFileName: 'macbeth.jpg', title: 'Macbeth' },
-    { imgFileName: 'aviator.jpg', title: 'Aviator' },
-    {
-      imgFileName: 'we-need-to-talk-about-kevin.jpg',
-      title: 'We need to talk about Kevin',
-    },
-    {
-      imgFileName: 'what-we-do-in-the-shadows.jpg',
-      title: 'What We Do in the Shadows',
-    },
-    { imgFileName: 'revenant.jpg', title: 'Revenant' },
-    { imgFileName: 'johnny-english.jpg', title: 'Johnny English' },
-    { imgFileName: 'shutter-island.jpg', title: 'Shutter Island' },
-    { imgFileName: 'pulp-fiction.jpg', title: 'Pulp Fiction' },
-    {
-      imgFileName: 'no-country-for-old-men.jpg',
-      title: 'No Country for Old Men',
-    },
-    { imgFileName: 'snatch.jpg', title: 'Snatch' },
-    { imgFileName: 'moonrise-kingdom.jpg', title: 'Moonrise Kingdom' },
-    { imgFileName: 'seven-years-in-tibet.jpg', title: 'Seven Years in Tibet' },
-    { imgFileName: 'midnight-special.jpg', title: 'Midnight Special' },
-    { imgFileName: 'war-of-the-worlds.jpg', title: 'War of the Worlds' },
-    { imgFileName: 'dardjeeling-limited.jpg', title: 'Dardjeeling Limited' },
-    { imgFileName: 'orlando.jpg', title: 'Orlando' },
-    { imgFileName: 'mindhunter.jpg', title: 'Mindhunter' },
-    { imgFileName: 'midnight-special.jpg', title: 'Midnight Special' },
-  ];
-
+function Main({ promoMovie, movies }: MainProps): JSX.Element {
   return (
     <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img
-            src="img/bg-the-grand-budapest-hotel.jpg"
-            alt="The Grand Budapest Hotel"
-          />
+          <img src={promoMovie.backgroundImage} alt={promoMovie.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
 
         <header className="page-header film-card__head">
-          <div className="logo">
-            <a className="logo__link">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
+          <Logo />
 
           <ul className="user-block">
             <li className="user-block__item">
@@ -86,30 +42,30 @@ function Main({ name, genre, releaseYear }: MainProps): JSX.Element {
           <div className="film-card__info">
             <div className="film-card__poster">
               <img
-                src="img/the-grand-budapest-hotel-poster.jpg"
-                alt="The Grand Budapest Hotel poster"
+                src={promoMovie.posterImage}
+                alt={promoMovie.name}
                 width="218"
                 height="327"
               />
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{name}</h2>
+              <h2 className="film-card__title">{promoMovie.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{genre}</span>
-                <span className="film-card__year">{releaseYear}</span>
+                <span className="film-card__genre">{promoMovie.genre}</span>
+                <span className="film-card__year">{promoMovie.released}</span>
               </p>
 
               <div className="film-card__buttons">
-                <button
+                <Link
+                  to={`/player/${promoMovie.id}`}
                   className="btn btn--play film-card__button"
-                  type="button"
                 >
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
-                </button>
+                </Link>
                 <button
                   className="btn btn--list film-card__button"
                   type="button"
@@ -183,16 +139,7 @@ function Main({ name, genre, releaseYear }: MainProps): JSX.Element {
             </li>
           </ul>
 
-          <div className="catalog__films-list">
-            {fakeMoviesInfo.map(({ title, imgFileName, imgAlt }) => (
-              <MovieCard
-                key={title}
-                title={title}
-                imgFileName={imgFileName}
-                imgAlt={imgAlt}
-              />
-            ))}
-          </div>
+          <FilmsList movies={movies} />
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">
@@ -202,13 +149,7 @@ function Main({ name, genre, releaseYear }: MainProps): JSX.Element {
         </section>
 
         <footer className="page-footer">
-          <div className="logo">
-            <a className="logo__link logo__link--light">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
+          <Logo forFooter />
 
           <div className="copyright">
             <p>© 2019 What to watch Ltd.</p>
