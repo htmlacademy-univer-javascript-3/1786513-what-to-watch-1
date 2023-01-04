@@ -7,6 +7,7 @@ import MyList from '../../pages/my-list/my-list';
 import Film from '../../pages/film/film';
 import AddReview from '../../pages/add-review/add-review';
 import Player from '../../pages/player/player';
+import { reviews } from '../../mocks/reviews';
 
 function App({ promoMovie, movies }: MainProps): JSX.Element {
   return (
@@ -29,7 +30,11 @@ function App({ promoMovie, movies }: MainProps): JSX.Element {
           <Route
             path="films/:id"
             element={
-              <Film movie={movies[0]} likeThisMovies={movies.slice(1)} />
+              <Film
+                movie={movies[0]}
+                reviews={reviews}
+                likeThisMovies={movies.slice(1)}
+              />
             }
           />
           <Route
