@@ -4,6 +4,13 @@ type DetailsProps = {
   movie: Movie;
 };
 
+const convertTime = (minutes: number) => {
+  const hours = Math.floor(minutes / 60);
+  minutes = minutes % 60;
+
+  return `${hours}h ${minutes}m`;
+};
+
 function Details({ movie }: DetailsProps) {
   return (
     <div className="film-card__text film-card__row">
@@ -27,7 +34,9 @@ function Details({ movie }: DetailsProps) {
       <div className="film-card__text-col">
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Run Time</strong>
-          <span className="film-card__details-value">{movie.runTime}</span>
+          <span className="film-card__details-value">
+            {convertTime(movie.runTime)}
+          </span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Genre</strong>

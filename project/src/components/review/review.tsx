@@ -1,3 +1,7 @@
+import {
+  toAmericanLocaleString,
+  toSimpleISOString,
+} from '../../helpers/date-formatter';
 import { Review as ReviewType } from '../../types/review';
 
 type ReviewProps = {
@@ -12,8 +16,11 @@ function Review({ review }: ReviewProps) {
 
         <footer className="review__details">
           <cite className="review__author">{review.user.name}</cite>
-          <time className="review__date" dateTime={review.date}>
-            {review.date}
+          <time
+            className="review__date"
+            dateTime={toSimpleISOString(review.date)}
+          >
+            {toAmericanLocaleString(review.date)}
           </time>
         </footer>
       </blockquote>
