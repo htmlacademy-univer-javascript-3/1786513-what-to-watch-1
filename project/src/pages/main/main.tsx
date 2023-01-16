@@ -4,6 +4,9 @@ import Logo from '../../components/logo/logo';
 import GenresList from '../../components/genres-list/genres-list';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { Movie } from '../../types/films';
+import ShowMoreButton from '../../components/show-more-button/show-more-button';
+import { DEFAULT_SHOWN_COUNT } from '../../consts';
+import { useEffect, useState } from 'react';
 
 const getMoviesByGenre = (movies: Movie[], genre: string) => {
   const res = movies.slice();
@@ -17,6 +20,16 @@ function Main(): JSX.Element {
   const movies = useAppSelector((state) => state.movies);
   const promoMovie = useAppSelector((state) => state.promoMovie);
   const genre = useAppSelector((state) => state.genre);
+
+  const [shownCount, setShownCount] = useState(DEFAULT_SHOWN_COUNT);
+
+  useEffect(() => {
+    setShownCount(DEFAULT_SHOWN_COUNT);
+  }, [genre]);
+
+  const onShowMoreClick = () => {
+    setShownCount(shownCount + DEFAULT_SHOWN_COUNT);
+  };
 
   const filteredMovies = getMoviesByGenre(movies, genre);
 
@@ -99,13 +112,11 @@ function Main(): JSX.Element {
 
           <GenresList />
 
-          <FilmsList movies={filteredMovies} />
+          <FilmsList movies={filteredMovies.slice(0, shownCount)} />
 
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">
-              Show more
-            </button>
-          </div>
+          {shownCount < filteredMovies.length && (
+            <ShowMoreButton onClick={onShowMoreClick} />
+          )}
         </section>
 
         <footer className="page-footer">
