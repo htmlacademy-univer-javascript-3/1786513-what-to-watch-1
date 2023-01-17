@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Main from '../../pages/main/main';
 import NotFound from '../../pages/not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
@@ -7,19 +7,23 @@ import MyList from '../../pages/my-list/my-list';
 import Film from '../../pages/film/film';
 import AddReview from '../../pages/add-review/add-review';
 import Player from '../../pages/player/player';
-import { AppRoute } from '../../consts';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import { useAppSelector } from '../../hooks/useAppSelector';
+import HistoryRouter from '../history-route/history-route';
+import browserHistory from '../../browser-history';
 
 function App(): JSX.Element {
-  const { isDataLoading } = useAppSelector((state) => state);
+  const { isDataLoading, authorizationStatus } = useAppSelector(
+    (state) => state
+  );
 
-  if (isDataLoading) {
+  if (isDataLoading || authorizationStatus === AuthorizationStatus.Unknown) {
     return <LoadingScreen />;
   }
 
   return (
-    <BrowserRouter>
+    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route path={AppRoute.Root}>
           <Route index element={<Main />} />
@@ -41,7 +45,7 @@ function App(): JSX.Element {
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 
