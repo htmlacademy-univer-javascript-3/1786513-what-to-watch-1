@@ -1,13 +1,34 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import FilmsList from '../../components/films-list/films-list';
 import Logo from '../../components/logo/logo';
 import Tabs from '../../components/tabs/tabs';
-import { reviews } from '../../mocks/reviews';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import UserBlock from '../../components/user-block/user-block';
+import { AppRoute, AuthorizationStatus } from '../../const';
+import { useEffect } from 'react';
+import { fetchFilmDetailsAction } from '../../store/api-actions';
+import NotFound from '../not-found/not-found';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 
 function Film(): JSX.Element {
-  const [film, ...likeThisFilms] = useAppSelector((state) => state.films);
+  const { id } = useParams();
+
+  const { film, comments, similar, authorizationStatus } = useAppSelector(
+    (state) => state
+  );
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const filmId = Number(id);
+    if (filmId && (!film || film.id !== filmId)) {
+      dispatch(fetchFilmDetailsAction(filmId));
+    }
+  }, [dispatch, film, id]);
+
+  if (!film) {
+    return <NotFound />;
+  }
 
   return (
     <>
@@ -35,7 +56,7 @@ function Film(): JSX.Element {
 
               <div className="film-card__buttons">
                 <Link
-                  to={`/player/${film.id}`}
+                  to={`${AppRoute.Player}/${film.id}`}
                   className="btn btn--play film-card__button"
                 >
                   <svg viewBox="0 0 19 19" width="19" height="19">
@@ -53,12 +74,14 @@ function Film(): JSX.Element {
                   <span>My list</span>
                   <span className="film-card__count">9</span>
                 </button>
-                <Link
-                  to={`/films/${film.id}/review`}
-                  className="btn film-card__button"
-                >
-                  Add review
-                </Link>
+                {authorizationStatus === AuthorizationStatus.Auth && (
+                  <Link
+                    to={`${AppRoute.Films}/${film.id}/review`}
+                    className="btn film-card__button"
+                  >
+                    Add review
+                  </Link>
+                )}
               </div>
             </div>
           </div>
@@ -75,7 +98,7 @@ function Film(): JSX.Element {
               />
             </div>
 
-            <Tabs film={film} reviews={reviews} />
+            <Tabs film={film} comments={comments} />
           </div>
         </div>
       </section>
@@ -83,7 +106,7 @@ function Film(): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <FilmsList films={likeThisFilms} />
+          <FilmsList films={similar.slice(0, 4)} />
         </section>
 
         <footer className="page-footer">

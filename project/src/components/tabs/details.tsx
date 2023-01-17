@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import { Film } from '../../types/films';
 
 type DetailsProps = {
@@ -22,10 +23,15 @@ function Details({ film }: DetailsProps) {
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Starring</strong>
           <span className="film-card__details-value">
-            {film.starring.map((star) => (
-              <>
-                {star},<br />
-              </>
+            {film.starring.map((star, index) => (
+              <Fragment key={star}>
+                {star}
+                {index < film.starring.length - 1 && (
+                  <>
+                    , <br />
+                  </>
+                )}
+              </Fragment>
             ))}
           </span>
         </p>

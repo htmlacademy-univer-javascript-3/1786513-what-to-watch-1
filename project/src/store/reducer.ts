@@ -6,13 +6,21 @@ import {
   setDataLoadingStatus,
   requireAuthorization,
   setUser,
+  setFilm,
+  setPromoFilm,
+  setSimilar,
+  setComments,
 } from './action';
 import { Film } from '../types/films';
 import { UserData } from '../types/user-data';
+import { Comment } from '../types/comment';
 
 type InitialState = {
   films: Film[];
+  film: Film | null;
   promoFilm: Film | null;
+  similar: Film[];
+  comments: Comment[];
   genre: string;
   isDataLoading: boolean;
   authorizationStatus: AuthorizationStatus;
@@ -21,7 +29,10 @@ type InitialState = {
 
 const initialState: InitialState = {
   films: [],
+  film: null,
   promoFilm: null,
+  similar: [],
+  comments: [],
   genre: DEFAULT_GENRE,
   isDataLoading: false,
   authorizationStatus: AuthorizationStatus.Unknown,
@@ -44,5 +55,17 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setUser, (state, action) => {
       state.user = action.payload;
+    })
+    .addCase(setFilm, (state, action) => {
+      state.film = action.payload;
+    })
+    .addCase(setPromoFilm, (state, action) => {
+      state.promoFilm = action.payload;
+    })
+    .addCase(setSimilar, (state, action) => {
+      state.similar = action.payload;
+    })
+    .addCase(setComments, (state, action) => {
+      state.comments = action.payload;
     });
 });

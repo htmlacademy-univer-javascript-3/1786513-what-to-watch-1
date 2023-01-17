@@ -1,10 +1,31 @@
+import { useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
 import ReviewForm from '../../components/review-form/review-form';
 import UserBlock from '../../components/user-block/user-block';
 import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import NotFound from '../not-found/not-found';
+import { fetchFilmAction } from '../../store/api-actions';
+import { AppRoute } from '../../const';
 
 function AddReview(): JSX.Element {
-  const [film] = useAppSelector((state) => state.films);
+  const { id } = useParams();
+
+  const { film } = useAppSelector((state) => state);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const filmId = Number(id);
+    if (filmId && (!film || film.id !== filmId)) {
+      dispatch(fetchFilmAction(filmId));
+    }
+  }, [id, dispatch, film]);
+
+  if (!film) {
+    return <NotFound />;
+  }
 
   return (
     <section className="film-card film-card--full">
@@ -21,12 +42,20 @@ function AddReview(): JSX.Element {
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <a href="film-page.html" className="breadcrumbs__link">
+                <Link
+                  to={`${AppRoute.Films}/${id}`}
+                  className="breadcrumbs__link"
+                >
                   {film.name}
-                </a>
+                </Link>
               </li>
               <li className="breadcrumbs__item">
-                <a className="breadcrumbs__link">Add review</a>
+                <Link
+                  to={`${AppRoute.Films}/${id}/review`}
+                  className="breadcrumbs__link"
+                >
+                  Add review
+                </Link>
               </li>
             </ul>
           </nav>

@@ -5,9 +5,10 @@ import GenresList from '../../components/genres-list/genres-list';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { Film } from '../../types/films';
 import ShowMoreButton from '../../components/show-more-button/show-more-button';
-import { DEFAULT_SHOWN_COUNT } from '../../const';
+import { AppRoute, DEFAULT_SHOWN_COUNT } from '../../const';
 import { useEffect, useState } from 'react';
 import UserBlock from '../../components/user-block/user-block';
+import NotFound from '../not-found/not-found';
 
 const getFilmsByGenre = (films: Film[], genre: string) => {
   const res = films.slice();
@@ -18,21 +19,22 @@ const getFilmsByGenre = (films: Film[], genre: string) => {
 };
 
 function Main(): JSX.Element {
-  const { films, genre } = useAppSelector((state) => state);
+  const { films, genre, promoFilm } = useAppSelector((state) => state);
   const [shownCount, setShownCount] = useState(DEFAULT_SHOWN_COUNT);
 
   useEffect(() => {
     setShownCount(DEFAULT_SHOWN_COUNT);
   }, [genre]);
 
+  if (!promoFilm) {
+    return <NotFound />;
+  }
+
   const handleShowMoreClick = () => {
     setShownCount(shownCount + DEFAULT_SHOWN_COUNT);
   };
 
   const filteredFilms = getFilmsByGenre(films, genre);
-
-  // TODO: удалить и заменить на запрос
-  const promoFilm = films[0];
 
   return (
     <>
@@ -69,7 +71,7 @@ function Main(): JSX.Element {
 
               <div className="film-card__buttons">
                 <Link
-                  to={`/player/${promoFilm.id}`}
+                  to={`${AppRoute.Player}/${promoFilm.id}`}
                   className="btn btn--play film-card__button"
                 >
                   <svg viewBox="0 0 19 19" width="19" height="19">

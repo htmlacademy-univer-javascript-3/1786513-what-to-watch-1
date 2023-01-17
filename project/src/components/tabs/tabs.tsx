@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { Film } from '../../types/films';
-import { Review } from '../../types/review';
+import { Comment } from '../../types/comment';
 import Details from './details';
 import Overview from './overview';
 import Reviews from './reviews';
 
 type TabsProps = {
   film: Film;
-  reviews: Review[];
+  comments: Comment[];
 };
 
 enum FilmTabs {
@@ -16,13 +16,13 @@ enum FilmTabs {
   'Reviews' = 'Reviews',
 }
 
-function Tabs({ film, reviews }: TabsProps) {
+function Tabs({ film, comments }: TabsProps) {
   const [currentTab, setCurrentTab] = useState<FilmTabs>(FilmTabs.Overview);
 
   const filmTabsComponents: { [key in FilmTabs]: JSX.Element } = {
     Overview: <Overview film={film} />,
     Details: <Details film={film} />,
-    Reviews: <Reviews reviews={reviews} />,
+    Reviews: <Reviews comments={comments} />,
   };
 
   return (
