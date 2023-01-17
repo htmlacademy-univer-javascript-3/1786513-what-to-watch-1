@@ -1,7 +1,7 @@
-import { Movie } from '../../types/films';
+import { Film } from '../../types/films';
 
 type OverviewProps = {
-  movie: Movie;
+  film: Film;
 };
 
 const convertRating = (rating: number): string => {
@@ -23,31 +23,29 @@ const convertRating = (rating: number): string => {
   return 'Unknown';
 };
 
-function Overview({ movie }: OverviewProps) {
+function Overview({ film }: OverviewProps) {
   return (
     <>
       <div className="film-rating">
-        <div className="film-rating__score">{movie.rating}</div>
+        <div className="film-rating__score">{film.rating}</div>
         <p className="film-rating__meta">
           <span className="film-rating__level">
-            {convertRating(movie.rating)}
+            {convertRating(film.rating)}
           </span>
-          <span className="film-rating__count">
-            {movie.scoresCount} ratings
-          </span>
+          <span className="film-rating__count">{film.scoresCount} ratings</span>
         </p>
       </div>
 
       <div className="film-card__text">
-        <p>{movie.description}</p>
+        <p>{film.description}</p>
 
         <p className="film-card__director">
-          <strong>Director: {movie.director}</strong>
+          <strong>Director: {film.director}</strong>
         </p>
 
         <p className="film-card__starring">
           <strong>
-            Starring: {movie.starring.slice(0, 3).join(', ')} and other
+            Starring: {film.starring.slice(0, 3).join(', ')} and other
           </strong>
         </p>
       </div>

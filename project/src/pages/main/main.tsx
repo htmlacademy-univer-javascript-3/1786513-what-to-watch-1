@@ -3,41 +3,41 @@ import FilmsList from '../../components/films-list/films-list';
 import Logo from '../../components/logo/logo';
 import GenresList from '../../components/genres-list/genres-list';
 import { useAppSelector } from '../../hooks/useAppSelector';
-import { Movie } from '../../types/films';
+import { Film } from '../../types/films';
 import ShowMoreButton from '../../components/show-more-button/show-more-button';
 import { DEFAULT_SHOWN_COUNT } from '../../consts';
 import { useEffect, useState } from 'react';
 
-const getMoviesByGenre = (movies: Movie[], genre: string) => {
-  const res = movies.slice();
+const getFilmsByGenre = (films: Film[], genre: string) => {
+  const res = films.slice();
   if (genre === 'All genres') {
     return res;
   }
-  return res.filter((movie) => movie.genre === genre);
+  return res.filter((film) => film.genre === genre);
 };
 
 function Main(): JSX.Element {
-  const movies = useAppSelector((state) => state.movies);
-  const promoMovie = useAppSelector((state) => state.promoMovie);
-  const genre = useAppSelector((state) => state.genre);
-
+  const { films, genre } = useAppSelector((state) => state);
   const [shownCount, setShownCount] = useState(DEFAULT_SHOWN_COUNT);
 
   useEffect(() => {
     setShownCount(DEFAULT_SHOWN_COUNT);
   }, [genre]);
 
-  const onShowMoreClick = () => {
+  const handleShowMoreClick = () => {
     setShownCount(shownCount + DEFAULT_SHOWN_COUNT);
   };
 
-  const filteredMovies = getMoviesByGenre(movies, genre);
+  const filteredFilms = getFilmsByGenre(films, genre);
+
+  // TODO: удалить и заменить на запрос
+  const promoFilm = films[0];
 
   return (
     <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src={promoMovie.backgroundImage} alt={promoMovie.name} />
+          <img src={promoFilm.backgroundImage} alt={promoFilm.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -66,23 +66,23 @@ function Main(): JSX.Element {
           <div className="film-card__info">
             <div className="film-card__poster">
               <img
-                src={promoMovie.posterImage}
-                alt={promoMovie.name}
+                src={promoFilm.posterImage}
+                alt={promoFilm.name}
                 width="218"
                 height="327"
               />
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{promoMovie.name}</h2>
+              <h2 className="film-card__title">{promoFilm.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{promoMovie.genre}</span>
-                <span className="film-card__year">{promoMovie.released}</span>
+                <span className="film-card__genre">{promoFilm.genre}</span>
+                <span className="film-card__year">{promoFilm.released}</span>
               </p>
 
               <div className="film-card__buttons">
                 <Link
-                  to={`/player/${promoMovie.id}`}
+                  to={`/player/${promoFilm.id}`}
                   className="btn btn--play film-card__button"
                 >
                   <svg viewBox="0 0 19 19" width="19" height="19">
@@ -112,10 +112,10 @@ function Main(): JSX.Element {
 
           <GenresList />
 
-          <FilmsList movies={filteredMovies.slice(0, shownCount)} />
+          <FilmsList films={filteredFilms.slice(0, shownCount)} />
 
-          {shownCount < filteredMovies.length && (
-            <ShowMoreButton onClick={onShowMoreClick} />
+          {shownCount < filteredFilms.length && (
+            <ShowMoreButton onClick={handleShowMoreClick} />
           )}
         </section>
 

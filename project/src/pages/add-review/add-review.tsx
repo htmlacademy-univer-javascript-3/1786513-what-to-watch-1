@@ -3,13 +3,13 @@ import ReviewForm from '../../components/review-form/review-form';
 import { useAppSelector } from '../../hooks/useAppSelector';
 
 function AddReview(): JSX.Element {
-  const [movie] = useAppSelector((state) => state.movies);
+  const [film] = useAppSelector((state) => state.films);
 
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src={movie.backgroundImage} alt={movie.name} />
+          <img src={film.backgroundImage} alt={film.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -21,7 +21,7 @@ function AddReview(): JSX.Element {
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
                 <a href="film-page.html" className="breadcrumbs__link">
-                  {movie.name}
+                  {film.name}
                 </a>
               </li>
               <li className="breadcrumbs__item">
@@ -49,8 +49,8 @@ function AddReview(): JSX.Element {
 
         <div className="film-card__poster film-card__poster--small">
           <img
-            src={movie.posterImage}
-            alt={movie.name}
+            src={film.posterImage}
+            alt={film.name}
             width="218"
             height="327"
           />

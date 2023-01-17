@@ -1,4 +1,4 @@
-export type Movie = {
+export type Film = {
   id: number;
   name: string;
   posterImage: string;

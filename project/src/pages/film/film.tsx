@@ -6,14 +6,14 @@ import { reviews } from '../../mocks/reviews';
 import { useAppSelector } from '../../hooks/useAppSelector';
 
 function Film(): JSX.Element {
-  const [movie, ...likeThisMovies] = useAppSelector((state) => state.movies);
+  const [film, ...likeThisFilms] = useAppSelector((state) => state.films);
 
   return (
     <>
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={movie.backgroundImage} alt={movie.name} />
+            <img src={film.backgroundImage} alt={film.name} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -40,15 +40,15 @@ function Film(): JSX.Element {
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{movie.name}</h2>
+              <h2 className="film-card__title">{film.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{movie.genre}</span>
-                <span className="film-card__year">{movie.released}</span>
+                <span className="film-card__genre">{film.genre}</span>
+                <span className="film-card__year">{film.released}</span>
               </p>
 
               <div className="film-card__buttons">
                 <Link
-                  to={`/player/${movie.id}`}
+                  to={`/player/${film.id}`}
                   className="btn btn--play film-card__button"
                 >
                   <svg viewBox="0 0 19 19" width="19" height="19">
@@ -67,7 +67,7 @@ function Film(): JSX.Element {
                   <span className="film-card__count">9</span>
                 </button>
                 <Link
-                  to={`/films/${movie.id}/review`}
+                  to={`/films/${film.id}/review`}
                   className="btn film-card__button"
                 >
                   Add review
@@ -81,14 +81,14 @@ function Film(): JSX.Element {
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
               <img
-                src={movie.posterImage}
-                alt={movie.name}
+                src={film.posterImage}
+                alt={film.name}
                 width="218"
                 height="327"
               />
             </div>
 
-            <Tabs movie={movie} reviews={reviews} />
+            <Tabs film={film} reviews={reviews} />
           </div>
         </div>
       </section>
@@ -96,7 +96,7 @@ function Film(): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <FilmsList movies={likeThisMovies} />
+          <FilmsList films={likeThisFilms} />
         </section>
 
         <footer className="page-footer">

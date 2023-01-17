@@ -1,22 +1,22 @@
 import { Link } from 'react-router-dom';
-import { Movie } from '../../types/films';
+import { Film } from '../../types/films';
 import { useState } from 'react';
 import VideoPlayer from '../video-player/video-player';
 
-export type MovieCardProps = {
-  movie: Movie;
+export type FilmCardProps = {
+  film: Film;
 };
 
-function MovieCard({ movie }: MovieCardProps): JSX.Element {
+function FilmCard({ film }: FilmCardProps): JSX.Element {
   const [timeoutId, setTimeoutId] = useState<number | undefined>(undefined);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const onMouseEnter = () => {
+  const handleCardMouseEnter = () => {
     const id = setTimeout(setIsPlaying, 1000, true);
     setTimeoutId(id);
   };
 
-  const onMouseLeave = () => {
+  const handleCardMouseLeave = () => {
     clearTimeout(timeoutId);
     setIsPlaying(false);
   };
@@ -24,32 +24,32 @@ function MovieCard({ movie }: MovieCardProps): JSX.Element {
   return (
     <article
       className="small-film-card catalog__films-card"
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
+      onMouseEnter={handleCardMouseEnter}
+      onMouseLeave={handleCardMouseLeave}
     >
       <div className="small-film-card__image">
         {isPlaying ? (
           <VideoPlayer
-            src={movie.videoLink}
-            posterSrc={movie.previewImage}
+            src={film.videoLink}
+            posterSrc={film.previewImage}
             muted
           />
         ) : (
           <img
-            src={movie.previewImage}
-            alt={movie.description}
+            src={film.previewImage}
+            alt={film.description}
             width="280"
             height="175"
           />
         )}
       </div>
       <h3 className="small-film-card__title">
-        <Link className="small-film-card__link" to={`/films/${movie.id}`}>
-          {movie.name}
+        <Link className="small-film-card__link" to={`/films/${film.id}`}>
+          {film.name}
         </Link>
       </h3>
     </article>
   );
 }
 
-export default MovieCard;
+export default FilmCard;

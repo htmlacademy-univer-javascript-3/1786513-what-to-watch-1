@@ -1,7 +1,7 @@
-import { Movie } from '../../types/films';
+import { Film } from '../../types/films';
 
 type DetailsProps = {
-  movie: Movie;
+  film: Film;
 };
 
 const convertTime = (minutes: number) => {
@@ -11,18 +11,18 @@ const convertTime = (minutes: number) => {
   return `${hours}h ${minutes}m`;
 };
 
-function Details({ movie }: DetailsProps) {
+function Details({ film }: DetailsProps) {
   return (
     <div className="film-card__text film-card__row">
       <div className="film-card__text-col">
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Director</strong>
-          <span className="film-card__details-value">{movie.director}</span>
+          <span className="film-card__details-value">{film.director}</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Starring</strong>
           <span className="film-card__details-value">
-            {movie.starring.map((star) => (
+            {film.starring.map((star) => (
               <>
                 {star},<br />
               </>
@@ -35,16 +35,16 @@ function Details({ movie }: DetailsProps) {
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Run Time</strong>
           <span className="film-card__details-value">
-            {convertTime(movie.runTime)}
+            {convertTime(film.runTime)}
           </span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Genre</strong>
-          <span className="film-card__details-value">{movie.genre}</span>
+          <span className="film-card__details-value">{film.genre}</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Released</strong>
-          <span className="film-card__details-value">{movie.released}</span>
+          <span className="film-card__details-value">{film.released}</span>
         </p>
       </div>
     </div>
