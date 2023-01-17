@@ -1,5 +1,5 @@
 import { MouseEvent } from 'react';
-import { DEFAULT_GENRE } from '../../consts';
+import { DEFAULT_GENRE } from '../../const';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { setGenre } from '../../store/action';
