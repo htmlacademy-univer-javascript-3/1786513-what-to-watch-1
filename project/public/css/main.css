@@ -360,6 +360,9 @@ main {
   width: 520px;
   margin: 0 auto; }
 
+.add-review__fieldset {
+  border: 0; }
+
 .add-review__text {
   background: #E8C3C4;
   border-radius: 8px; }
@@ -562,7 +565,8 @@ main {
 .catalog__films-card {
   width: calc((100% - 30px) / 4);
   margin-right: 10px;
-  margin-bottom: 55px; }
+  margin-bottom: 55px;
+  cursor: pointer; }
   .catalog__films-card:nth-child(4n) {
     margin-right: 0; }
   .catalog__films-card:nth-last-child(-n + 4) {

@@ -2,10 +2,10 @@ import {
   toAmericanLocaleString,
   toSimpleISOString,
 } from '../../helpers/date-formatter';
-import { Review as ReviewType } from '../../types/review';
+import { Comment } from '../../types/comment';
 
 type ReviewProps = {
-  review: ReviewType;
+  review: Comment;
 };
 
 function Review({ review }: ReviewProps) {
