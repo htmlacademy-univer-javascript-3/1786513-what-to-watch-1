@@ -1,21 +1,25 @@
+import { MouseEvent } from 'react';
 import { DEFAULT_GENRE } from '../../consts';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { setGenre } from '../../store/action';
-import { Movie } from '../../types/films';
+import { Film } from '../../types/films';
 
-export const getGenres = (movies: Movie[]) => [
+export const getGenres = (films: Film[]) => [
   DEFAULT_GENRE,
-  ...new Set(movies.map((movie) => movie.genre)),
+  ...new Set(films.map((film) => film.genre)),
 ];
 
 function GenresList() {
-  const currentGenre = useAppSelector((state) => state.genre);
-  const movies = useAppSelector((state) => state.movies);
-  const allGenres = getGenres(movies);
+  const { genre: currentGenre, films } = useAppSelector((state) => state);
+  const allGenres = getGenres(films);
   const dispatch = useAppDispatch();
 
-  const onClick = (genre: string) => {
+  const handleGenreClick = (
+    e: MouseEvent<HTMLAnchorElement>,
+    genre: string
+  ) => {
+    e.preventDefault();
     dispatch(setGenre({ genre }));
   };
 
@@ -31,10 +35,7 @@ function GenresList() {
           <a
             href="#"
             className="catalog__genres-link"
-            onClick={(e) => {
-              e.preventDefault();
-              onClick(genre);
-            }}
+            onClick={(e) => handleGenreClick(e, genre)}
           >
             {genre}
           </a>

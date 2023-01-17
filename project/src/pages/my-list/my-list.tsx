@@ -3,7 +3,7 @@ import Logo from '../../components/logo/logo';
 import { useAppSelector } from '../../hooks/useAppSelector';
 
 function MyList(): JSX.Element {
-  const movies = useAppSelector((state) => state.movies);
+  const films = useAppSelector((state) => state.films);
 
   return (
     <div className="user-page">
@@ -33,7 +33,7 @@ function MyList(): JSX.Element {
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-        <FilmsList movies={movies} />
+        <FilmsList films={films} />
       </section>
 
       <footer className="page-footer">

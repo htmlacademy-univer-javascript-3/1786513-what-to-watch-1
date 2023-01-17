@@ -3,14 +3,14 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 
 function Player(): JSX.Element {
   const navigate = useNavigate();
-  const [movie] = useAppSelector((state) => state.movies);
+  const [film] = useAppSelector((state) => state.films);
 
   return (
     <div className="player">
       <video
-        src={movie.videoLink}
+        src={film.videoLink}
         className="player__video"
-        poster={movie.posterImage}
+        poster={film.posterImage}
       />
 
       <button

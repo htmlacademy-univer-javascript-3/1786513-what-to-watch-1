@@ -1,15 +1,15 @@
-import { Movie } from '../../types/films';
-import MovieCard from '../movie-card/movie-card';
+import { Film } from '../../types/films';
+import FilmCard from '../film-card/film-card';
 
 export type FilmsListProps = {
-  movies: Movie[];
+  films: Film[];
 };
 
-function FilmsList({ movies }: FilmsListProps) {
+function FilmsList({ films }: FilmsListProps) {
   return (
     <div className="catalog__films-list">
-      {movies.map((movie) => (
-        <MovieCard key={movie.id} movie={movie} />
+      {films.map((film) => (
+        <FilmCard key={film.id} film={film} />
       ))}
     </div>
   );
