@@ -15,6 +15,7 @@ export type MainProcess = {
   films: Film[];
   promoFilm: Film | null;
   genre: string;
+  favoriteFilms: Film[];
   isDataLoading: boolean;
 };
 

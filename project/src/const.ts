@@ -30,3 +30,8 @@ export enum SliceName {
   Main = 'MAIN',
   User = 'USER',
 }
+
+export enum FilmStatus {
+  Delete = 0,
+  Add = 1,
+}

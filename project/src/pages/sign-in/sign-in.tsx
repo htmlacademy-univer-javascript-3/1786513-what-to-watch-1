@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
-import { useRef, FormEvent } from 'react';
+import { useRef, FormEvent, useState } from 'react';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { loginAction } from '../../store/api-actions';
 import { AuthData } from '../../types/auth-data';
@@ -8,8 +8,11 @@ import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import Footer from '../../components/footer/footer';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 function SignIn(): JSX.Element {
+  const [error, setError] = useState('');
+
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
@@ -18,11 +21,13 @@ function SignIn(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   if (authorizationStatus === AuthorizationStatus.Auth) {
-    return <Navigate to={AppRoute.Root} />;
+    return <Navigate to={AppRoute.Root} replace />;
   }
 
-  const onSubmit = (authData: AuthData) => {
-    dispatch(loginAction(authData));
+  const onSubmit = async (authData: AuthData) => {
+    dispatch(loginAction(authData))
+      .then(unwrapResult)
+      .catch((err) => setError(err));
   };
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
@@ -46,6 +51,11 @@ function SignIn(): JSX.Element {
 
       <div className="sign-in user-page__content">
         <form action="#" className="sign-in__form" onSubmit={handleSubmit}>
+          {error && (
+            <div className="sign-in__message">
+              <p>{error}</p>
+            </div>
+          )}
           <div className="sign-in__fields">
             <div className="sign-in__field">
               <input

@@ -15,6 +15,7 @@ import {
   getPromoFilm,
 } from '../../store/main-process/selectors';
 import Footer from '../../components/footer/footer';
+import MyListButton from '../../components/my-list-button/my-list-button';
 
 const getFilmsByGenre = (films: Film[], genre: string) => {
   const res = films.slice();
@@ -88,16 +89,7 @@ function Main(): JSX.Element {
                   </svg>
                   <span>Play</span>
                 </Link>
-                <button
-                  className="btn btn--list film-card__button"
-                  type="button"
-                >
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">9</span>
-                </button>
+                <MyListButton />
               </div>
             </div>
           </div>

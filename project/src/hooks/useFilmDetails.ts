@@ -11,10 +11,17 @@ export const useFilm = (
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (!isNaN(filmId) && (!film || film.id !== filmId)) {
+    let isMounted = true;
+
+    // TODO: доработать условие
+    if (isMounted && !isNaN(filmId) && (!film || film.id !== filmId)) {
       withDetails
         ? dispatch(fetchFilmDetailsAction(filmId))
         : dispatch(fetchFilmAction(filmId));
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, [dispatch, film, filmId, withDetails]);
 };

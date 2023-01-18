@@ -1,6 +1,6 @@
 import {
-  toAmericanLocaleString,
-  toSimpleISOString,
+  getAmericanLocaleString,
+  getSimpleISOString,
 } from '../../helpers/date-formatter';
 import { Comment } from '../../types/comment';
 
@@ -18,9 +18,9 @@ function Review({ review }: ReviewProps) {
           <cite className="review__author">{review.user.name}</cite>
           <time
             className="review__date"
-            dateTime={toSimpleISOString(review.date)}
+            dateTime={getSimpleISOString(review.date)}
           >
-            {toAmericanLocaleString(review.date)}
+            {getAmericanLocaleString(review.date)}
           </time>
         </footer>
       </blockquote>

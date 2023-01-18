@@ -3,10 +3,10 @@ import Footer from '../../components/footer/footer';
 import Logo from '../../components/logo/logo';
 import UserBlock from '../../components/user-block/user-block';
 import { useAppSelector } from '../../hooks/useAppSelector';
-import { getFilms } from '../../store/main-process/selectors';
+import { getFavoriteFilms } from '../../store/main-process/selectors';
 
 function MyList(): JSX.Element {
-  const films = useAppSelector(getFilms);
+  const favoriteFilms = useAppSelector(getFavoriteFilms);
 
   return (
     <div className="user-page">
@@ -14,7 +14,8 @@ function MyList(): JSX.Element {
         <Logo />
 
         <h1 className="page-title user-page__title">
-          My list <span className="user-page__film-count">9</span>
+          My list{' '}
+          <span className="user-page__film-count">{favoriteFilms.length}</span>
         </h1>
 
         <UserBlock />
@@ -23,7 +24,7 @@ function MyList(): JSX.Element {
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-        <FilmsList films={films} />
+        <FilmsList films={favoriteFilms} />
       </section>
 
       <Footer />

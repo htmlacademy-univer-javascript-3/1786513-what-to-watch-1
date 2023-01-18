@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
@@ -12,6 +12,8 @@ function UserBlock() {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const user = useAppSelector(getUser);
 
+  const navigate = useNavigate();
+
   const dispatch = useAppDispatch();
 
   return (
@@ -19,7 +21,10 @@ function UserBlock() {
       {authorizationStatus === AuthorizationStatus.Auth ? (
         <>
           <li className="user-block__item">
-            <div className="user-block__avatar">
+            <div
+              className="user-block__avatar"
+              onClick={() => navigate(AppRoute.MyList)}
+            >
               <img
                 src={user?.avatarUrl ?? 'img/avatar.jpg'}
                 alt="User avatar"

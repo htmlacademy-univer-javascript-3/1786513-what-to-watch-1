@@ -1,13 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { DEFAULT_GENRE, SliceName } from '../../const';
 import { MainProcess } from '../../types/state';
-import { fetchFilmsAction, fetchPromoFilmAction } from '../api-actions';
+import {
+  fetchFavoriteFilmsAction,
+  fetchFilmsAction,
+  fetchPromoFilmAction,
+} from '../api-actions';
 import { setGenre } from './action';
 
 const initialState: MainProcess = {
   films: [],
   promoFilm: null,
   genre: DEFAULT_GENRE,
+  favoriteFilms: [],
   isDataLoading: false,
 };
 
@@ -35,6 +40,16 @@ export const mainProcess = createSlice({
         state.isDataLoading = false;
       })
       .addCase(fetchPromoFilmAction.rejected, (state) => {
+        state.isDataLoading = false;
+      })
+      .addCase(fetchFavoriteFilmsAction.pending, (state) => {
+        state.isDataLoading = true;
+      })
+      .addCase(fetchFavoriteFilmsAction.fulfilled, (state, action) => {
+        state.favoriteFilms = action.payload;
+        state.isDataLoading = false;
+      })
+      .addCase(fetchFavoriteFilmsAction.rejected, (state) => {
         state.isDataLoading = false;
       })
       .addCase(setGenre, (state, action) => {
