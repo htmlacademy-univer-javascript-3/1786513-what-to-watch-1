@@ -1,5 +1,6 @@
 import { Fragment } from 'react';
 import { Film } from '../../types/films';
+import DetailsItem from '../details-item/detail-item';
 
 type DetailsProps = {
   film: Film;
@@ -16,42 +17,26 @@ function Details({ film }: DetailsProps) {
   return (
     <div className="film-card__text film-card__row">
       <div className="film-card__text-col">
-        <p className="film-card__details-item">
-          <strong className="film-card__details-name">Director</strong>
-          <span className="film-card__details-value">{film.director}</span>
-        </p>
-        <p className="film-card__details-item">
-          <strong className="film-card__details-name">Starring</strong>
-          <span className="film-card__details-value">
-            {film.starring.map((star, index) => (
-              <Fragment key={star}>
-                {star}
-                {index < film.starring.length - 1 && (
-                  <>
-                    , <br />
-                  </>
-                )}
-              </Fragment>
-            ))}
-          </span>
-        </p>
+        <DetailsItem name="Director" value={film.director} />
+        <DetailsItem
+          name="Starring"
+          value={film.starring.map((star, index) => (
+            <Fragment key={star}>
+              {star}
+              {index < film.starring.length - 1 && (
+                <>
+                  , <br />
+                </>
+              )}
+            </Fragment>
+          ))}
+        />
       </div>
 
       <div className="film-card__text-col">
-        <p className="film-card__details-item">
-          <strong className="film-card__details-name">Run Time</strong>
-          <span className="film-card__details-value">
-            {convertTime(film.runTime)}
-          </span>
-        </p>
-        <p className="film-card__details-item">
-          <strong className="film-card__details-name">Genre</strong>
-          <span className="film-card__details-value">{film.genre}</span>
-        </p>
-        <p className="film-card__details-item">
-          <strong className="film-card__details-name">Released</strong>
-          <span className="film-card__details-value">{film.released}</span>
-        </p>
+        <DetailsItem name="Run Time" value={convertTime(film.runTime)} />
+        <DetailsItem name="Genre" value={film.genre} />
+        <DetailsItem name="Released" value={film.released} />
       </div>
     </div>
   );

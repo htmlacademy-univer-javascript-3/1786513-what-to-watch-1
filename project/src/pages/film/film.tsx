@@ -5,26 +5,32 @@ import Tabs from '../../components/tabs/tabs';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import UserBlock from '../../components/user-block/user-block';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { useEffect } from 'react';
-import { fetchFilmDetailsAction } from '../../store/api-actions';
 import NotFound from '../not-found/not-found';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
+import {
+  getComments,
+  getFilm,
+  getSimilar,
+  isFilmDataLoading,
+} from '../../store/film-data/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import LoadingScreen from '../loading-screen/loading-screen';
+import { useFilm } from '../../hooks/useFilmDetails';
+import Footer from '../../components/footer/footer';
 
 function Film(): JSX.Element {
   const { id } = useParams();
 
-  const { film, comments, similar, authorizationStatus } = useAppSelector(
-    (state) => state
-  );
+  const film = useAppSelector(getFilm);
+  const comments = useAppSelector(getComments);
+  const similar = useAppSelector(getSimilar);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isDataLoading = useAppSelector(isFilmDataLoading);
 
-  const dispatch = useAppDispatch();
+  useFilm(Number(id), film, true);
 
-  useEffect(() => {
-    const filmId = Number(id);
-    if (filmId && (!film || film.id !== filmId)) {
-      dispatch(fetchFilmDetailsAction(filmId));
-    }
-  }, [dispatch, film, id]);
+  if (isDataLoading) {
+    return <LoadingScreen />;
+  }
 
   if (!film) {
     return <NotFound />;
@@ -109,13 +115,7 @@ function Film(): JSX.Element {
           <FilmsList films={similar.slice(0, 4)} />
         </section>
 
-        <footer className="page-footer">
-          <Logo forFooter />
-
-          <div className="copyright">
-            <p>© 2019 What to watch Ltd.</p>
-          </div>
-        </footer>
+        <Footer />
       </div>
     </>
   );

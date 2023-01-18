@@ -24,3 +24,9 @@ export enum AuthorizationStatus {
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
+
+export enum SliceName {
+  Film = 'FILM',
+  Main = 'MAIN',
+  User = 'USER',
+}

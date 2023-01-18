@@ -1,10 +1,12 @@
 import FilmsList from '../../components/films-list/films-list';
+import Footer from '../../components/footer/footer';
 import Logo from '../../components/logo/logo';
 import UserBlock from '../../components/user-block/user-block';
 import { useAppSelector } from '../../hooks/useAppSelector';
+import { getFilms } from '../../store/main-process/selectors';
 
 function MyList(): JSX.Element {
-  const films = useAppSelector((state) => state.films);
+  const films = useAppSelector(getFilms);
 
   return (
     <div className="user-page">
@@ -24,13 +26,7 @@ function MyList(): JSX.Element {
         <FilmsList films={films} />
       </section>
 
-      <footer className="page-footer">
-        <Logo forFooter />
-
-        <div className="copyright">
-          <p>© 2019 What to watch Ltd.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

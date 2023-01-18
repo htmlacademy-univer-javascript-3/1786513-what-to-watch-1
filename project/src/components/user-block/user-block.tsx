@@ -3,9 +3,14 @@ import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { logoutAction } from '../../store/api-actions';
+import {
+  getAuthorizationStatus,
+  getUser,
+} from '../../store/user-process/selectors';
 
 function UserBlock() {
-  const { authorizationStatus, user } = useAppSelector((state) => state);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const user = useAppSelector(getUser);
 
   const dispatch = useAppDispatch();
 

@@ -1,9 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/useAppSelector';
+import { getFilms } from '../../store/main-process/selectors';
 
 function Player(): JSX.Element {
   const navigate = useNavigate();
-  const [film] = useAppSelector((state) => state.films);
+  const [film] = useAppSelector(getFilms);
 
   return (
     <div className="player">
