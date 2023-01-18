@@ -1,27 +1,25 @@
-import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
 import ReviewForm from '../../components/review-form/review-form';
 import UserBlock from '../../components/user-block/user-block';
 import { useAppSelector } from '../../hooks/useAppSelector';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
 import NotFound from '../not-found/not-found';
-import { fetchFilmAction } from '../../store/api-actions';
 import { AppRoute } from '../../const';
+import { getFilm, isFilmDataLoading } from '../../store/film-data/selectors';
+import { useFilm } from '../../hooks/useFilmDetails';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 function AddReview(): JSX.Element {
   const { id } = useParams();
 
-  const { film } = useAppSelector((state) => state);
+  const film = useAppSelector(getFilm);
+  const isDataLoading = useAppSelector(isFilmDataLoading);
 
-  const dispatch = useAppDispatch();
+  useFilm(Number(id), film);
 
-  useEffect(() => {
-    const filmId = Number(id);
-    if (filmId && (!film || film.id !== filmId)) {
-      dispatch(fetchFilmAction(filmId));
-    }
-  }, [id, dispatch, film]);
+  if (isDataLoading) {
+    return <LoadingScreen />;
+  }
 
   if (!film) {
     return <NotFound />;

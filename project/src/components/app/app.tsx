@@ -12,11 +12,12 @@ import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
+import { isMainDataLoading } from '../../store/main-process/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 function App(): JSX.Element {
-  const { isDataLoading, authorizationStatus } = useAppSelector(
-    (state) => state
-  );
+  const isDataLoading = useAppSelector(isMainDataLoading);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   if (isDataLoading || authorizationStatus === AuthorizationStatus.Unknown) {
     return <LoadingScreen />;

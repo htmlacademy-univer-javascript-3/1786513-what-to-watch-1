@@ -9,6 +9,12 @@ import { AppRoute, DEFAULT_SHOWN_COUNT } from '../../const';
 import { useEffect, useState } from 'react';
 import UserBlock from '../../components/user-block/user-block';
 import NotFound from '../not-found/not-found';
+import {
+  getFilms,
+  getGenre,
+  getPromoFilm,
+} from '../../store/main-process/selectors';
+import Footer from '../../components/footer/footer';
 
 const getFilmsByGenre = (films: Film[], genre: string) => {
   const res = films.slice();
@@ -19,7 +25,10 @@ const getFilmsByGenre = (films: Film[], genre: string) => {
 };
 
 function Main(): JSX.Element {
-  const { films, genre, promoFilm } = useAppSelector((state) => state);
+  const films = useAppSelector(getFilms);
+  const promoFilm = useAppSelector(getPromoFilm);
+  const genre = useAppSelector(getGenre);
+
   const [shownCount, setShownCount] = useState(DEFAULT_SHOWN_COUNT);
 
   useEffect(() => {
@@ -108,13 +117,7 @@ function Main(): JSX.Element {
           )}
         </section>
 
-        <footer className="page-footer">
-          <Logo forFooter />
-
-          <div className="copyright">
-            <p>© 2019 What to watch Ltd.</p>
-          </div>
-        </footer>
+        <Footer />
       </div>
     </>
   );

@@ -6,6 +6,8 @@ import { loginAction } from '../../store/api-actions';
 import { AuthData } from '../../types/auth-data';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppSelector } from '../../hooks/useAppSelector';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import Footer from '../../components/footer/footer';
 
 function SignIn(): JSX.Element {
   const emailRef = useRef<HTMLInputElement | null>(null);
@@ -13,7 +15,7 @@ function SignIn(): JSX.Element {
 
   const dispatch = useAppDispatch();
 
-  const { authorizationStatus } = useAppSelector((state) => state);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   if (authorizationStatus === AuthorizationStatus.Auth) {
     return <Navigate to={AppRoute.Root} />;
@@ -86,13 +88,7 @@ function SignIn(): JSX.Element {
         </form>
       </div>
 
-      <footer className="page-footer">
-        <Logo forFooter />
-
-        <div className="copyright">
-          <p>© 2019 What to watch Ltd.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

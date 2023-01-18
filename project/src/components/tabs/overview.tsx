@@ -17,7 +17,7 @@ const convertRating = (rating: number): string => {
   if (rating >= 8 && rating <= 9) {
     return 'Very good';
   }
-  if (rating === 10) {
+  if (rating > 9 && rating <= 10) {
     return 'Awesome';
   }
   return 'Unknown';
