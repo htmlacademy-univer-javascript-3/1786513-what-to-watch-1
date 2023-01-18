@@ -12,6 +12,7 @@ type MyListButtonProps = {
 };
 
 function MyListButton({ film }: MyListButtonProps) {
+  // TODO: починить отображение галочки с количеством
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const favoriteFilms = useAppSelector(getFavoriteFilms);
 
