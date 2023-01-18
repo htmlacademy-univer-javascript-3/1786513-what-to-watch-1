@@ -1,7 +1,7 @@
-export const toSimpleISOString = (date: string): string =>
+export const getSimpleISOString = (date: string): string =>
   new Date(date).toISOString().split('T')[0];
 
-export const toAmericanLocaleString = (date: string): string => {
+export const getAmericanLocaleString = (date: string): string => {
   const options = {
     year: 'numeric',
     month: 'long',

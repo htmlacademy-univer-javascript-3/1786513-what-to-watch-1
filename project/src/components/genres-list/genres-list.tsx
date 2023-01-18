@@ -15,7 +15,7 @@ export const getGenres = (films: Film[]) => [
 function GenresList() {
   const currentGenre = useAppSelector(getGenre);
   const films = useAppSelector(getFilms);
-  const allGenres = getGenres(films);
+  const allGenres = getGenres(films).slice(0, 10);
 
   const dispatch = useAppDispatch();
 
@@ -39,7 +39,7 @@ function GenresList() {
           <Link
             to={`?genre=${genre}`}
             className="catalog__genres-link"
-            onClick={(e) => handleGenreClick(e, genre)}
+            onClick={(evt) => handleGenreClick(evt, genre)}
           >
             {genre}
           </Link>

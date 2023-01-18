@@ -5,6 +5,7 @@ import App from './components/app/app';
 import { store } from './store';
 import {
   checkAuthAction,
+  fetchFavoriteFilmsAction,
   fetchFilmsAction,
   fetchPromoFilmAction,
 } from './store/api-actions';
@@ -13,6 +14,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 store.dispatch(fetchPromoFilmAction());
 store.dispatch(fetchFilmsAction());
+// TODO: диспатчичь только в компоненте. Не понял, почему куча раз перерендеривается, как и фильмы без хука
+store.dispatch(fetchFavoriteFilmsAction());
 store.dispatch(checkAuthAction());
 
 const root = ReactDOM.createRoot(

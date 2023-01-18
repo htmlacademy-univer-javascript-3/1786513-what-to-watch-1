@@ -3,7 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, FilmData, State } from '../types/state';
 import { Film } from '../types/films';
 import { redirectToRoute } from './action';
-import { APIRoute, AppRoute } from '../const';
+import { APIRoute, AppRoute, FilmStatus } from '../const';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
 import { Comment } from '../types/comment';
@@ -86,6 +86,32 @@ export const postCommentAction = createAsyncThunk<
     dispatch(redirectToRoute(`${AppRoute.Films}/${filmId}`));
   }
 );
+
+export const fetchFavoriteFilmsAction = createAsyncThunk<
+  Film[],
+  undefined,
+  {
+    state: State;
+    extra: AxiosInstance;
+  }
+>('data/fetchFavoriteFilms', async (_arg, { extra: api }) => {
+  const { data } = await api.get<Film[]>(`${APIRoute.Favorite}`);
+  return data;
+});
+
+export const changeFavoriteStatusAction = createAsyncThunk<
+  Film,
+  { filmId: number; status: FilmStatus },
+  {
+    state: State;
+    extra: AxiosInstance;
+  }
+>('data/changeFavoriteStatus', async ({ filmId, status }, { extra: api }) => {
+  const { data } = await api.post<Film>(
+    `${APIRoute.Favorite}/${filmId}/${status}`
+  );
+  return data;
+});
 
 export const checkAuthAction = createAsyncThunk<
   UserData,
