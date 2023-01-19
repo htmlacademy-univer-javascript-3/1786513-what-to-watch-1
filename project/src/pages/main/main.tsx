@@ -89,7 +89,7 @@ function Main(): JSX.Element {
                   </svg>
                   <span>Play</span>
                 </Link>
-                <MyListButton film={promoFilm} />
+                <MyListButton film={promoFilm} isPromo />
               </div>
             </div>
           </div>

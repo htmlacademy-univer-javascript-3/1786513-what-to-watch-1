@@ -3,15 +3,19 @@ import { AuthorizationStatus, AppRoute, FilmStatus } from '../../const';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
-import { changeFavoriteStatusAction } from '../../store/api-actions';
+import {
+  changeFavoritePromoFilmAction,
+  changeFavoriteSimpleFilmAction,
+} from '../../store/api-actions';
 import { getFavoriteFilms } from '../../store/main-process/selectors';
 import { Film } from '../../types/films';
 
 type MyListButtonProps = {
   film: Film;
+  isPromo?: boolean;
 };
 
-function MyListButton({ film }: MyListButtonProps) {
+function MyListButton({ film, isPromo }: MyListButtonProps) {
   // TODO: починить отображение галочки с количеством
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const favoriteFilms = useAppSelector(getFavoriteFilms);
@@ -24,9 +28,11 @@ function MyListButton({ film }: MyListButtonProps) {
     if (authorizationStatus !== AuthorizationStatus.Auth) {
       navigate(AppRoute.Login);
     }
-
+    const changeFavoriteAction = isPromo
+      ? changeFavoritePromoFilmAction
+      : changeFavoriteSimpleFilmAction;
     dispatch(
-      changeFavoriteStatusAction({
+      changeFavoriteAction({
         status: film.isFavorite ? FilmStatus.Delete : FilmStatus.Add,
         filmId: film.id,
       })

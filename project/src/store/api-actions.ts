@@ -99,19 +99,46 @@ export const fetchFavoriteFilmsAction = createAsyncThunk<
   return data;
 });
 
-export const changeFavoriteStatusAction = createAsyncThunk<
-  Film,
-  { filmId: number; status: FilmStatus },
-  {
-    state: State;
-    extra: AxiosInstance;
-  }
->('data/changeFavoriteStatus', async ({ filmId, status }, { extra: api }) => {
+const changeFavoriteStatus = async (
+  api: AxiosInstance,
+  dispatch: AppDispatch,
+  filmId: number,
+  status: FilmStatus
+) => {
   const { data } = await api.post<Film>(
     `${APIRoute.Favorite}/${filmId}/${status}`
   );
+  dispatch(fetchFavoriteFilmsAction());
   return data;
-});
+};
+
+export const changeFavoriteSimpleFilmAction = createAsyncThunk<
+  Film,
+  { filmId: number; status: FilmStatus },
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>(
+  'data/changeFavoriteSimpleFilm',
+  async ({ filmId, status }, { dispatch, extra: api }) =>
+    changeFavoriteStatus(api, dispatch, filmId, status)
+);
+
+export const changeFavoritePromoFilmAction = createAsyncThunk<
+  Film,
+  { filmId: number; status: FilmStatus },
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>(
+  'data/changeFavoritePromoFilm',
+  async ({ filmId, status }, { dispatch, extra: api }) =>
+    changeFavoriteStatus(api, dispatch, filmId, status)
+);
 
 export const checkAuthAction = createAsyncThunk<
   UserData,

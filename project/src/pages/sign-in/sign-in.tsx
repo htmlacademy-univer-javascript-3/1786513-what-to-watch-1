@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
-import { useRef, FormEvent, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { loginAction } from '../../store/api-actions';
 import { AuthData } from '../../types/auth-data';
@@ -12,9 +12,8 @@ import { unwrapResult } from '@reduxjs/toolkit';
 
 function SignIn(): JSX.Element {
   const [error, setError] = useState('');
-
-  const emailRef = useRef<HTMLInputElement | null>(null);
-  const passwordRef = useRef<HTMLInputElement | null>(null);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const dispatch = useAppDispatch();
 
@@ -32,13 +31,10 @@ function SignIn(): JSX.Element {
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-
-    if (emailRef.current !== null && passwordRef.current !== null) {
-      onSubmit({
-        email: emailRef.current.value,
-        password: passwordRef.current.value,
-      });
-    }
+    onSubmit({
+      email,
+      password,
+    });
   };
 
   return (
@@ -59,7 +55,8 @@ function SignIn(): JSX.Element {
           <div className="sign-in__fields">
             <div className="sign-in__field">
               <input
-                ref={emailRef}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="sign-in__input"
                 type="email"
                 placeholder="Email address"
@@ -75,7 +72,8 @@ function SignIn(): JSX.Element {
             </div>
             <div className="sign-in__field">
               <input
-                ref={passwordRef}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="sign-in__input"
                 type="password"
                 placeholder="Password"
@@ -91,7 +89,11 @@ function SignIn(): JSX.Element {
             </div>
           </div>
           <div className="sign-in__submit">
-            <button className="sign-in__btn" type="submit">
+            <button
+              className="sign-in__btn"
+              type="submit"
+              disabled={!email || !password}
+            >
               Sign in
             </button>
           </div>
