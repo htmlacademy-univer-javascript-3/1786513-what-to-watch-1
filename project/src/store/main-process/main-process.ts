@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { DEFAULT_GENRE, SliceName } from '../../const';
 import { MainProcess } from '../../types/state';
 import {
+  changeFavoritePromoFilmAction,
   fetchFavoriteFilmsAction,
   fetchFilmsAction,
   fetchPromoFilmAction,
@@ -42,15 +43,11 @@ export const mainProcess = createSlice({
       .addCase(fetchPromoFilmAction.rejected, (state) => {
         state.isDataLoading = false;
       })
-      .addCase(fetchFavoriteFilmsAction.pending, (state) => {
-        state.isDataLoading = true;
-      })
       .addCase(fetchFavoriteFilmsAction.fulfilled, (state, action) => {
         state.favoriteFilms = action.payload;
-        state.isDataLoading = false;
       })
-      .addCase(fetchFavoriteFilmsAction.rejected, (state) => {
-        state.isDataLoading = false;
+      .addCase(changeFavoritePromoFilmAction.fulfilled, (state, action) => {
+        state.promoFilm = action.payload;
       })
       .addCase(setGenre, (state, action) => {
         state.genre = action.payload;

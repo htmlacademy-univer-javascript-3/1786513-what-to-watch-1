@@ -71,7 +71,7 @@ function Film(): JSX.Element {
                   </svg>
                   <span>Play</span>
                 </Link>
-                <MyListButton />
+                <MyListButton film={film} />
                 {authorizationStatus === AuthorizationStatus.Auth && (
                   <Link
                     to={`${AppRoute.Films}/${film.id}/review`}

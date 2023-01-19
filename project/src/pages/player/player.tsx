@@ -17,7 +17,7 @@ const getLeftTime = (timeInSeconds: number) => {
 };
 
 function Player(): JSX.Element {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
@@ -81,6 +81,7 @@ function Player(): JSX.Element {
         poster={film.previewImage}
         style={{ objectFit: 'fill' }}
         onTimeUpdate={handleVideoTimeUpdate}
+        autoPlay
       />
 
       <button
