@@ -40,6 +40,8 @@ export const createAPI = (): AxiosInstance => {
     (error: AxiosError) => {
       if (error.response && shouldDisplayError(error.response)) {
         toast.warn(error.response.data.error);
+      } else if (String(error.response?.status).startsWith('5')) {
+        toast.warn('Server not available. Try later');
       }
 
       throw error;
